@@ -1,0 +1,93 @@
+.main-wrapper
+    width: 100%
+    height: 100vh
+    background: #f9f9f9
+.main-display
+    width: 100%
+    max-width: 450px
+    min-width: 300px
+    height: 100%
+    margin: 0 auto
+    padding-top: 120px
+
+
+.tasker-header-wrapper
+    width: 100%
+    height: auto
+.tasker-header-display
+    width: 100%
+    height: 100%
+    text-align: center
+
+    h1
+        color: $header-text
+        font-size: 100px
+        font-weight: lighter
+
+.task-wrapper
+    width: 100%
+    height: auto
+    background: #fff
+
+.task-display
+    width: 100%
+    height: 100%
+
+.task-create
+    width: 100%
+    height: 60px
+    border-bottom: $light-border
+    display: table
+
+    input
+        width: 80%
+        height: 60px
+        color: $light-text
+        font-size: 20px
+        font-style: italic
+        outline: none
+        border: none
+        display: table-cell
+        padding: 0 1%
+
+    input::-webkit-input-placeholder
+        color: $placeholder-text
+
+.task-control
+    width: 100%
+    height: 60px
+    border-bottom: $light-border
+    display: table
+
+    p
+        width: 80%
+        height: 100%
+        color: $light-text
+        display: table-cell
+        font-size: 20px
+        font-weight: bold
+        display: table-cell
+        vertical-align: middle
+
+.col
+    width: 10%
+    display: table-cell
+    text-align: center
+    vertical-align: middle
+
+.col-delete
+    width: 10%
+    height: 100%
+    display: table-cell
+    text-align: center
+    font-style: bold
+    vertical-align: middle
+    cursor: pointer
+    transition: $mid-lin-trans
+    &:hover
+        i
+            color: $delete-red
+
+    i
+        color: $light-text
+        transition: $mid-lin-trans
