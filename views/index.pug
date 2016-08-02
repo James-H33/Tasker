@@ -15,6 +15,12 @@ section.main-wrapper
                     div.col
                     input(type="text" placeholder="what needs to be done?")
                 section.task-todos-display
+                  - todos.todos.forEach(function(item) {
+                    div.task-control
+                      div.col: i(class="fa fa-circle-thin")
+                      p #{item.todoText}
+                      div.col-delete: i(class="fa fa-times")
+                  - })
             section.tasker-buttons
               button#save-todos Save
 

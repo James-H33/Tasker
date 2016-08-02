@@ -101,21 +101,23 @@ const DataHandler = {
     },
     postTodos: function() {
         var urlPath = window.location.pathname;
-        var data = TodosList.todos;
-        console.log(data);
+        var postData = TodosList.todos;
+        console.log(postData);
 
         $.ajax({
             type: 'POST',
             url: '/',
-            data: data,
-            success: function() {
+            dataType: 'json',
+            data: { 'post' : JSON.stringify(postData) },
+            success: function(data) {
                 console.log("Success");
+                console.log(data);
             },
             error: function(err) {
                 console.log(err);
             }
+        });
 
-        })
     }
 }
 
