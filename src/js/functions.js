@@ -2,6 +2,7 @@ require('../sass/main.sass');
 
 "use strict";
 
+// Handles todos in the DOM
 const TodosList = {
     todos: [],
     init: function() {
@@ -49,7 +50,7 @@ const TodosList = {
                     </div>
                 </div>`
             );
-        })
+        });
     },
     addTodos: function(newTodo) {
         this.todos.push({
@@ -59,9 +60,8 @@ const TodosList = {
         this.displayTodos();
     },
     changeTodos: function(event) {
-        console.log(event.target);
-        var todoToChange = event.target.closest('.task-control');
-        var position = todoToChange.dataset.position;
+        var todoToChange    = event.target.closest('.task-control');
+        var position        = todoToChange.dataset.position;
         this.todos[position].todoText = newTodo;
         this.displayTodos();
     },
@@ -72,8 +72,8 @@ const TodosList = {
     },
     toggleStatus: function(event) {
         var toggleTodoWrapper = event.target.closest('.task-control');
-        var position         = toggleTodoWrapper.dataset.position;
-        var todoCompleted    = this.todos[position];
+        var position          = toggleTodoWrapper.dataset.position;
+        var todoCompleted     = this.todos[position];
 
         if (event.target.className === 'fa fa-circle-thin') {
             event.target.className = 'fa fa-circle';
@@ -87,7 +87,7 @@ const TodosList = {
 
 TodosList.init();
 
-
+// Handles AJAX Requests
 const DataHandler = {
     init: function() {
         this.cacheDOM();
@@ -102,7 +102,6 @@ const DataHandler = {
     postTodos: function() {
         var urlPath = window.location.pathname;
         var postData = TodosList.todos;
-        console.log(postData);
 
         $.ajax({
             type: 'POST',
@@ -111,7 +110,6 @@ const DataHandler = {
             data: { 'post' : JSON.stringify(postData) },
             success: function(data) {
                 console.log("Success");
-                console.log(data);
             },
             error: function(err) {
                 console.log(err);

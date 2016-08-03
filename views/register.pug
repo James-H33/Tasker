@@ -1,0 +1,20 @@
+include ./partials/header
+
+section.form-wrapper
+  div.form-display
+    h2 register
+    form(action="/register" method="POST").form-container
+      - if (hasErrors) {
+        div.form-control
+          p #{messages}
+      - }
+      div.form-control
+        input(type="username" name="name" placeholder="username" required)
+      div.form-control
+        input(type="email" name="email" placeholder="email" required)
+      div.form-control
+        input(type="password" name="password" placeholder="password" required)
+      div.form-control
+        button Submit
+
+include ./partials/footer

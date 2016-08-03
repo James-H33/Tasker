@@ -1,0 +1,62 @@
+.form-wrapper
+  width: 100%
+  height: auto
+  padding-top: 60px
+
+.form-display
+  width: 100%
+  height: 100%
+  padding: 60px 0
+  text-align: center
+
+  h2
+    color: $header-text
+    font-size: 100px
+    font-weight: lighter
+    padding: 10px 0
+
+.form-container
+  width: 95%
+  height: auto
+  max-width: 450px
+  margin: 0 auto
+  text-align: center
+
+.form-control
+  width: 95%
+  height: 50px
+  background: #fff
+  display: table
+  padding: 3px 0
+  margin: 2px auto
+
+  input
+    width: 90%
+    height: 100%
+    color: $light-text
+    font-size: 20px
+    font-style: italic
+    background: transparent
+    padding: 0 1% 0 30px
+    border: none
+    &:focus
+      outline: none
+      border: none
+
+  input::-webkit-input-placeholder
+      color: $placeholder-text
+
+  button
+    width: 95%
+    height: 30px
+    color: $placeholder-text
+    font-size: 20px
+    font-weight: bold
+    padding-top: 10px
+    background: transparent
+    outline: none
+    border: none
+    cursor: pointer
+    transition: $mid-lin-trans
+    &:hover
+      color: $light-text

@@ -1,0 +1,8 @@
+Notes
+  V1 Initial Push
+  V3
+    Added Packages:
+      - passport
+      - passport-local
+      - express-sessions
+      - bcrypt-nodejs
