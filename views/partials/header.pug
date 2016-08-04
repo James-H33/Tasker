@@ -12,5 +12,11 @@ html
           span
         div.header-display
           h2 tasker
+          li: a(href="/home") home
           li: a(href="/login") login
           li: a(href="/register") register
+
+      section.user-status
+        - if (currentUser) {
+            h3 Welcome, #{currentUser.name}
+        - }

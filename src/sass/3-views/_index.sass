@@ -1,8 +1,18 @@
 .main-wrapper
     width: 100%
     height: 100vh
+    overflow: hidden
 
 .main-display
+    width: 100%
+    height: 100%
+    transition: $fast-ease-trans
+    transform: translateY(0)
+
+    &.active-list   
+        transform: translateY(-100%)
+
+.tasker-display
     width: 100%
     max-width: 450px
     min-width: 300px
@@ -20,10 +30,9 @@
     text-align: center
 
     h1
-        color: $header-text
+        color: $red
         font-size: 100px
         font-weight: lighter
-        animation: headerColors 5s ease-in-out infinite
 
 .task-wrapper
     width: 100%
@@ -90,7 +99,7 @@
     transition: $mid-lin-trans
     &:hover
         i
-            color: $delete-red
+            color: $red
 
     i
         color: $light-text
@@ -104,14 +113,25 @@
   button
     color: $placeholder-text
     font-size: 18px
+    font-style: italic
     font-weight: bold
     outline: none
     box-shadow: none
     border: none
     background: transparent
+    letter-spacing: 0.5px
     padding-top: 15px
     padding-left: 15px
     cursor: pointer
     transition: $mid-lin-trans
     &:hover
       color: $light-text
+
+
+.list-display
+    width: 100%
+    max-width: 450px
+    min-width: 300px
+    height: calc(100% - 120px)
+    margin: 0 auto
+    padding-top: 120px

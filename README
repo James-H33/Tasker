@@ -6,3 +6,15 @@ Notes
       - passport-local
       - express-sessions
       - bcrypt-nodejs
+  v4
+    Added Packages:
+     - validator
+    - Todos and User Association
+    - various style Changes
+  v5 - What's Next
+    - Add Packages
+      - csurf
+    - Todo Lists need a title
+    
+ 
+

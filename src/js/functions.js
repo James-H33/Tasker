@@ -4,7 +4,10 @@ require('../sass/main.sass');
 
 // Handles todos in the DOM
 const TodosList = {
-    todos: [],
+    todos: {
+        title: '',
+        list: []
+    },
     init: function() {
         this.eventBinding();
     },
@@ -52,8 +55,11 @@ const TodosList = {
             );
         });
     },
+    addTitle: function(newTitle) {
+        this.todos.title = newTitle;
+    }, 
     addTodos: function(newTodo) {
-        this.todos.push({
+        this.todos.list.push({
             todoText: newTodo,
             completed: false
         });
@@ -87,6 +93,9 @@ const TodosList = {
 
 TodosList.init();
 
+
+
+
 // Handles AJAX Requests
 const DataHandler = {
     init: function() {
@@ -105,7 +114,7 @@ const DataHandler = {
 
         $.ajax({
             type: 'POST',
-            url: '/',
+            url: '/home',
             dataType: 'json',
             data: { 'post' : JSON.stringify(postData) },
             success: function(data) {
@@ -120,3 +129,29 @@ const DataHandler = {
 }
 
 DataHandler.init();
+
+
+
+// Handles Page View Switch: From Todo to List and back
+(function() {
+
+    const PageView = {
+        init: function(){
+            this.cacheDOM();
+            this.bindEvents();
+        }, 
+        cacheDOM: function() {
+            this.$mainDisplay   = $('.main-display'); 
+            this.$viewToggleBtn = this.$mainDisplay.find('.more-todos');
+        },
+        bindEvents: function() {
+            this.$viewToggleBtn.on('click', this.slideView.bind(this));
+        }, 
+        slideView: function() {
+            this.$mainDisplay.toggleClass('active-list');
+        }
+    }
+
+    PageView.init();
+
+})();

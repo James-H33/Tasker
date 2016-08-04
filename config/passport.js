@@ -20,6 +20,22 @@ passport.use('local.register', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, function(req, email, password, done) {
+
+    // validation of email
+    req.checkBody('email', 'Invalid Email').notEmpty().isEmail();
+    req.checkBody('password', 'Invalid Password').notEmpty().isLength({ min: 4 });
+
+    var errors = req.validationErrors(); 
+    var messages = [];
+    if (errors) {
+        errors.forEach(function(err) {
+            messages.push(err.msg); // .msg ensures that you push only the message and not the whole object
+        });
+
+        // null = err; false = not successful; Send error messages to the view
+        return done(null, false, req.flash('error', messages));
+    }
+
     User.findOne({ 'email' : email }, function(err, user) {
         if (err) {
             return done(err);
@@ -52,6 +68,21 @@ passport.use('local.login', new LocalStrategy({
     passReqToCallback: true
 
 }, function(req, email, password, done) {
+
+     // validation of email
+    req.checkBody('email', 'Invalid Email').notEmpty().isEmail();
+    req.checkBody('password', 'Invalid Password').notEmpty().isLength({ min: 4 });
+
+    var errors = req.validationErrors(); 
+    var messages = [];
+    if (errors) {
+        errors.forEach(function(err) {
+            messages.push(err.msg); // .msg ensures that you push only the message and not the whole object
+        });
+
+        // null = err; false = not successful; Send error messages to the view
+        return done(null, false, req.flash('error', messages));
+    }
 
     User.findOne({ 'email' : email }, function(err, user) {
         if (err) {

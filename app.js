@@ -3,6 +3,7 @@ const favicon           = require('serve-favicon');
 const cookieParser      = require('cookie-parser');
 const logger            = require('morgan');
 const bodyParser        = require('body-parser');
+const validator         = require('express-validator');
 const mongoose          = require('mongoose');
 const session           = require('express-session');
 const passport          = require('passport');
@@ -29,6 +30,7 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator());
 app.use(cookieParser());
 app.use(session({
     secret: 'practicalsteelchicken',
