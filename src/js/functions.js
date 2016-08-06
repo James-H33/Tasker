@@ -12,9 +12,10 @@ const TodosList = {
         this.eventBinding();
     },
     eventBinding: function() {
-        var taskInput = $('.task-create input');
-        var taskDelete = $('.col-delete');
-        var taskTodosDisplay = $('.task-todos-display');
+        var taskInput          = $('.task-create input');
+        var taskDelete         = $('.col-delete');
+        var taskTodosDisplay   = $('.task-todos-display');
+        var removeAllBtn       = $('#remove-todos');
 
         // Add Todos Event
         taskInput.on('keydown', function(event) {
@@ -37,11 +38,15 @@ const TodosList = {
         // Change TodoText
         // taskTodosDisplay.on('click', 'p', this.changeTodos.bind(this));
 
+        // Remove All Todos
+        removeAllBtn.on('click', this.removeAllTodos.bind(this));
+
     },
     displayTodos: function() {
         var taskTodosDisplay = $('.task-todos-display');
         taskTodosDisplay[0].innerHTML = '';
-        this.todos.forEach(function(item, position) {
+        console.log(this.todos);
+        this.todos.list.forEach(function(item, position) {
             taskTodosDisplay.append(`
                 <div class="task-control" data-position="${position}">
                     <div class="col">
@@ -57,7 +62,7 @@ const TodosList = {
     },
     addTitle: function(newTitle) {
         this.todos.title = newTitle;
-    }, 
+    },
     addTodos: function(newTodo) {
         this.todos.list.push({
             todoText: newTodo,
@@ -65,21 +70,19 @@ const TodosList = {
         });
         this.displayTodos();
     },
-    changeTodos: function(event) {
-        var todoToChange    = event.target.closest('.task-control');
-        var position        = todoToChange.dataset.position;
-        this.todos[position].todoText = newTodo;
+    deleteTodos: function(removeEvent) {
+        var removePosition = removeEvent.dataset.position;
+        this.todos.list.splice(removePosition, 1);
         this.displayTodos();
     },
-    deleteTodos: function(removeEvent){
-        var removePosition = removeEvent.dataset.position
-        this.todos.splice(removePosition, 1);
+    removeAllTodos: function() {
+        this.todos.list.length = 0;
         this.displayTodos();
     },
     toggleStatus: function(event) {
         var toggleTodoWrapper = event.target.closest('.task-control');
         var position          = toggleTodoWrapper.dataset.position;
-        var todoCompleted     = this.todos[position];
+        var todoCompleted     = this.todos.list[position];
 
         if (event.target.className === 'fa fa-circle-thin') {
             event.target.className = 'fa fa-circle';
@@ -103,14 +106,31 @@ const DataHandler = {
         this.eventBinding();
     },
     cacheDOM: function() {
-        this.$saveTodosBtn = $('#save-todos');
+        this.$saveTodosBtn      = $('#save-todos');
+        this.$saveModalWrapper  = $('#save-modal-wrapper');
+        this.$saveCloseModal    = this.$saveModalWrapper.find('.save-modal-close')
+        this.$saveModalDisplay  = this.$saveModalWrapper.find('.save-modal-display');
+        this.$saveModalDataBtn  = this.$saveModalWrapper.find('.save-modal-data');
+        this.$titleInput        = this.$saveModalWrapper.find('.title-wrapper input');
     },
     eventBinding: function() {
-        this.$saveTodosBtn.on('click', this.postTodos.bind(this));
+        this.$saveTodosBtn.on('click', this.displaySaveModal.bind(this));
+        this.$saveCloseModal.on('click', this.displaySaveModal.bind(this));
+        this.$saveModalDataBtn.on('click', this.postTodos.bind(this));
+    },
+    displaySaveModal: function() {
+        this.$saveModalWrapper.toggleClass('active-modal');
+        this.$saveModalDisplay.toggleClass('active-modal');
     },
     postTodos: function() {
         var urlPath = window.location.pathname;
-        var postData = TodosList.todos;
+        TodosList.addTitle(this.$titleInput[0].value);
+
+        var postData = {
+            title: TodosList.todos.title,
+            todos: TodosList.todos.list
+        }
+        console.log(postData);
 
         $.ajax({
             type: 'POST',
@@ -119,6 +139,8 @@ const DataHandler = {
             data: { 'post' : JSON.stringify(postData) },
             success: function(data) {
                 console.log("Success");
+                TodosList.removeAllTodos();
+                TodosList.todos.title = '';
             },
             error: function(err) {
                 console.log(err);
@@ -139,14 +161,14 @@ DataHandler.init();
         init: function(){
             this.cacheDOM();
             this.bindEvents();
-        }, 
+        },
         cacheDOM: function() {
-            this.$mainDisplay   = $('.main-display'); 
+            this.$mainDisplay   = $('.main-display');
             this.$viewToggleBtn = this.$mainDisplay.find('.more-todos');
         },
         bindEvents: function() {
             this.$viewToggleBtn.on('click', this.slideView.bind(this));
-        }, 
+        },
         slideView: function() {
             this.$mainDisplay.toggleClass('active-list');
         }

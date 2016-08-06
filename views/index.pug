@@ -14,22 +14,28 @@ section.main-wrapper
                         div.col
                         input(type="text" placeholder="what needs to be done?")
                     section.task-todos-display
-                    //- - todos.todos.forEach(function(item) {
-                    //-   div.task-control
-                    //-     div.col: i(class="fa fa-circle-thin")
-                    //-     p #{item.todoText}
-                    //-     div.col-delete: i(class="fa fa-times")
-                    //- - })
+
                 section.tasker-buttons
                     button#save-todos Save
                     button.more-todos Lists
-                    button.more-todos Clear
-        
-        div.list-display
+                    button#remove-todos Clear
+
+        div.main-list-display
 
             section.tasker-header-wrapper
                 div.tasker-header-display
                     h1 Lists
+            section.list-wrapper
+                div.list-display
+                  - if (user) {
+                    - user.list.forEach(function(item) {
+                        div.task-control
+                          div.col: i(class="fa fa-circle-thin")
+                          p #{item.title}
+                          div.col-delete: i(class="fa fa-times")
+                    - });
+                  -  }
+
                 section.tasker-buttons
                     button.more-todos Lists
 

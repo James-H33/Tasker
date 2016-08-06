@@ -7,22 +7,28 @@ const User  = require('../models/user');
 
 
 router.get('/home', function(req, res, next) {
-    Todos.findById('57a0acd592edee7c182e4b78', function(err, todos) {
-        if (err) {
-            console.log(err);
-        }
-        res.render('index', { todos: todos });
-    });
+
+    if (req.user) {
+        User.findById(req.user.id).populate('list').exec(function(err, user) {
+            console.log(user);
+            return res.render('index', { user: user });
+        });
+    } else {
+        res.render('index');
+    }
+
 });
 
 router.post('/home', function(req, res, next) {
     var incomingData = req.body;
     var tempTodos = JSON.parse(incomingData.post);
+    console.log(req.user);
     var userId = req.user.id;
-
+    console.log(userId);
 
     var newTodos = new Todos({
-        todos: tempTodos
+        title:  tempTodos.title,
+        todos: tempTodos.todos
     });
 
     User.findById(userId, function(err, user) {
@@ -35,12 +41,12 @@ router.post('/home', function(req, res, next) {
                 console.log(err);
             }
 
-            user.comments.push(newTodos);
+            user.list.push(newTodos);
             user.save();
             console.log('Success');
             return res.send(incomingData);
         });
-        
+
     });
 
 });
