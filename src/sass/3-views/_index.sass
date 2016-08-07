@@ -9,7 +9,7 @@
     transition: $fast-ease-trans
     transform: translateY(0)
 
-    &.active-list   
+    &.active-list
         transform: translateY(-100%)
 
 .tasker-display
@@ -69,7 +69,11 @@
     border-bottom: $light-border
     display: table
     &.completed-task
-      opacity: 0.4
+        opacity: 0.4
+    &:hover
+        .col-delete i
+            color: $red
+
 
     p
         width: 80%
@@ -97,35 +101,32 @@
     vertical-align: middle
     cursor: pointer
     transition: $mid-lin-trans
-    &:hover
-        i
-            color: $red
 
     i
-        color: $light-text
+        color: #fff
         transition: $mid-lin-trans
 
 .tasker-buttons
-  width: 100%
-  height: 50px
-  display: table
+    width: 100%
+    height: 50px
+    display: table
 
-  button
-    color: $placeholder-text
-    font-size: 18px
-    font-style: italic
-    font-weight: bold
-    outline: none
-    box-shadow: none
-    border: none
-    background: transparent
-    letter-spacing: 0.5px
-    padding-top: 15px
-    padding-left: 15px
-    cursor: pointer
-    transition: $mid-lin-trans
-    &:hover
-      color: $light-text
+    button
+        color: $placeholder-text
+        font-size: 18px
+        font-style: italic
+        font-weight: bold
+        outline: none
+        box-shadow: none
+        border: none
+        background: transparent
+        letter-spacing: 0.5px
+        padding-top: 15px
+        padding-left: 15px
+        cursor: pointer
+        transition: $mid-lin-trans
+        &:hover
+          color: $light-text
 
 
 .main-list-display
@@ -144,3 +145,41 @@
 .list-display
     width: 100%
     height: 100%
+
+.task-listing-control
+    width: 100%
+    height: 60px
+    border-bottom: $light-border
+    display: table
+    cursor: pointer
+
+    &:hover
+        p
+            color: $red
+        .list-delete i
+            color: $red
+
+    p
+        width: 80%
+        height: 100%
+        color: $light-text
+        display: table-cell
+        font-size: 20px
+        font-weight: bold
+        display: table-cell
+        vertical-align: middle
+        letter-spacing: 0.5px
+
+.list-delete
+    width: 10%
+    height: 100%
+    display: table-cell
+    text-align: center
+    font-style: bold
+    vertical-align: middle
+    cursor: pointer
+    transition: $mid-lin-trans
+
+    i
+        color: #fff
+        transition: $mid-lin-trans

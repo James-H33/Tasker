@@ -51,6 +51,38 @@ router.post('/home', function(req, res, next) {
 
 });
 
+router.delete('/home', function(req, res, next) {
+    var listId = req.body.id;
+    console.log(req.body);
+
+    Todos.findByIdAndRemove(listId, function(err, list) {
+        if (err) {
+            console.log(err);
+        }
+
+        res.send(req.body);
+
+    });
+
+});
+
 
 
 module.exports = router;
+
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+
+    res.redirect('/');
+}
+
+function notLoggedIn(req, res, next) {
+    if (!req.isAuthenticated()) {
+        return next();
+    }
+
+    res.redirect('/');
+}

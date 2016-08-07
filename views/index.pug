@@ -29,10 +29,11 @@ section.main-wrapper
                 div.list-display
                   - if (user) {
                     - user.list.forEach(function(item) {
-                        div.task-control
-                          div.col: i(class="fa fa-circle-thin")
+                        div(data-id=''+item.id+'').task-listing-control
+                          div.col
                           p #{item.title}
-                          div.col-delete: i(class="fa fa-times")
+                          div.list-delete
+                            i(class='fa fa-times' aria-hidden='true')
                     - });
                   -  }
 

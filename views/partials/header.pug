@@ -12,9 +12,15 @@ html
           span
         div.header-display
           h2 tasker
-          li: a(href="/home") home
-          li: a(href="/login") login
-          li: a(href="/register") register
+          - if (user) {
+              li: a(href="/home") home
+              li: a(href="/logout") logout
+          - } else {
+              li: a(href="/home") home
+              li: a(href="/login") login
+              li: a(href="/register") register
+          - }
+
 
       section.user-status
         - if (currentUser) {
@@ -29,12 +35,10 @@ html
             h3 Give your list a title
             input(type='text' name="title" placeholder="title")
           div.save-modal-btn
-            button Email
-            button.save-modal-data Save
-            //- - if (currentUser) {
-            //-     button Email
-            //-     button Save
-            //- - } else {
-            //-     button Email
-            //-     a(href="/login") Login
-            //- - }
+            - if (currentUser) {
+                button Email
+                button.save-modal-data Save
+            - } else {
+                button Email
+                a(href="/login") Login
+            - }

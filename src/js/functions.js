@@ -35,9 +35,6 @@ const TodosList = {
         // Change Status
         taskTodosDisplay.on('click', '.fa', this.toggleStatus.bind(this));
 
-        // Change TodoText
-        // taskTodosDisplay.on('click', 'p', this.changeTodos.bind(this));
-
         // Remove All Todos
         removeAllBtn.on('click', this.removeAllTodos.bind(this));
 
@@ -45,7 +42,6 @@ const TodosList = {
     displayTodos: function() {
         var taskTodosDisplay = $('.task-todos-display');
         taskTodosDisplay[0].innerHTML = '';
-        console.log(this.todos);
         this.todos.list.forEach(function(item, position) {
             taskTodosDisplay.append(`
                 <div class="task-control" data-position="${position}">
@@ -98,6 +94,39 @@ TodosList.init();
 
 
 
+/****************************************************
+////////////////////  UserList  ////////////////////
+****************************************************/
+
+const UserList = {
+    init: function() {
+        this.cachDOM();
+        this.bindEvents();
+    },
+    cachDOM: function() {
+        this.$mainListDisplay = $('.main-list-display');
+        this.$listDelete      = this.$mainListDisplay.find('.list-delete');
+    },
+    bindEvents: function () {
+        this.$listDelete.on('click', this.deleteList.bind(this));
+    },
+    deleteList: function(event) {
+        var eventParent = event.target.closest('.task-listing-control');
+        var listId = eventParent.dataset.id;
+        DataHandler.deleteTodosListing(listId, eventParent);
+    },
+    removeListDisplay: function(elemToRemove) {
+        elemToRemove.remove();
+    }
+}
+
+UserList.init();
+
+
+
+/****************************************************
+//////////////////// DataHandler ////////////////////
+****************************************************/
 
 // Handles AJAX Requests
 const DataHandler = {
@@ -130,7 +159,6 @@ const DataHandler = {
             title: TodosList.todos.title,
             todos: TodosList.todos.list
         }
-        console.log(postData);
 
         $.ajax({
             type: 'POST',
@@ -146,13 +174,34 @@ const DataHandler = {
                 console.log(err);
             }
         });
+    },
+    deleteTodosListing: function(listingId, parentElem) {
+        var listId = listingId;
+        var parentElem = parentElem;
 
+        $.ajax({
+            type: 'DELETE',
+            url: '/home',
+            dataType: 'json',
+            data: { 'id': listId },
+            success: function(data) {
+                console.log("Success");
+                UserList.removeListDisplay(parentElem);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
     }
 }
 
 DataHandler.init();
 
 
+
+/****************************************************
+////////////////////  PageView  ////////////////////
+****************************************************/
 
 // Handles Page View Switch: From Todo to List and back
 (function() {
