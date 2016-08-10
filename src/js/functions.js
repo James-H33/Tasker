@@ -94,6 +94,7 @@ TodosList.init();
 
 
 
+
 /****************************************************
 ////////////////////  UserList  ////////////////////
 ****************************************************/
@@ -104,11 +105,15 @@ const UserList = {
         this.bindEvents();
     },
     cachDOM: function() {
-        this.$mainListDisplay = $('.main-list-display');
-        this.$listDelete      = this.$mainListDisplay.find('.list-delete');
+        this.$mainListDisplay       = $('.main-list-display');
+        this.$taskListControlP      = this.$mainListDisplay.find('.task-listing-control p');
+        this.$listDelete            = this.$mainListDisplay.find('.list-delete');
+        this.$slideListWrapper      = this.$mainListDisplay.find('.slide-list-wrapper');
+        this.$listDisplay           = $('.list-display');
     },
     bindEvents: function () {
         this.$listDelete.on('click', this.deleteList.bind(this));
+        this.$taskListControlP.on('click', this.slideListDisplay.bind(this));
     },
     deleteList: function(event) {
         var eventParent = event.target.closest('.task-listing-control');
@@ -117,10 +122,25 @@ const UserList = {
     },
     removeListDisplay: function(elemToRemove) {
         elemToRemove.remove();
+    },
+    slideListDisplay: function(event) {
+        this.$slideListWrapper.toggleClass('active-todos-list');
+        var eventParent = event.target.closest('.task-listing-control');
+        var listId = eventParent.dataset.id;
+        
+        DataHandler.getTodos(listId, eventParent);
+    },
+    displayRequestTodos: function(data) {
+        this.$listDisplay[1].append(`
+            <div class="task-control">
+                <p> ${item.todoText} </p>
+            </div>`
+        );
     }
 }
 
 UserList.init();
+
 
 
 
@@ -135,25 +155,15 @@ const DataHandler = {
         this.eventBinding();
     },
     cacheDOM: function() {
-        this.$saveTodosBtn      = $('#save-todos');
-        this.$saveModalWrapper  = $('#save-modal-wrapper');
-        this.$saveCloseModal    = this.$saveModalWrapper.find('.save-modal-close')
-        this.$saveModalDisplay  = this.$saveModalWrapper.find('.save-modal-display');
-        this.$saveModalDataBtn  = this.$saveModalWrapper.find('.save-modal-data');
-        this.$titleInput        = this.$saveModalWrapper.find('.title-wrapper input');
+
     },
     eventBinding: function() {
-        this.$saveTodosBtn.on('click', this.displaySaveModal.bind(this));
-        this.$saveCloseModal.on('click', this.displaySaveModal.bind(this));
-        this.$saveModalDataBtn.on('click', this.postTodos.bind(this));
-    },
-    displaySaveModal: function() {
-        this.$saveModalWrapper.toggleClass('active-modal');
-        this.$saveModalDisplay.toggleClass('active-modal');
+
     },
     postTodos: function() {
-        var urlPath = window.location.pathname;
-        TodosList.addTitle(this.$titleInput[0].value);
+        let urlPath = window.location.pathname;
+        let titleInput = $('.title-wrapper input');
+        TodosList.addTitle(titleInput[0].value);
 
         var postData = {
             title: TodosList.todos.title,
@@ -168,7 +178,9 @@ const DataHandler = {
             success: function(data) {
                 console.log("Success");
                 TodosList.removeAllTodos();
+                SaveModal.displaySaveModal();
                 TodosList.todos.title = '';
+                titleInput[0].value = '';
             },
             error: function(err) {
                 console.log(err);
@@ -192,10 +204,63 @@ const DataHandler = {
                 console.log(err);
             }
         });
+    },
+    getTodos: function(listingId, parentElem) {
+        var listId = listingId;
+        var parentElem = parentElem;
+        console.log('You\'ve done it!');
+
+        // $.ajax({
+        //     type: 'GET',
+        //     url: '/todos',
+        //     dataType: 'json',
+        //     data: { 'id' : listId },
+        //     success: function() {
+        //         console.log('Success');
+        //     },
+        //     error: function(err) {
+        //         console.log(err);
+        //     }
+        // });
     }
 }
 
 DataHandler.init();
+
+
+
+
+/****************************************************
+////////////////////  Save Modal ////////////////////
+****************************************************/
+
+const SaveModal = {
+    init: function() {
+        this.cacheDOM();
+        this.bindEvents();
+    },
+    cacheDOM: function() {
+        this.$saveTodosBtn      = $('#save-todos');
+        this.$saveModalWrapper  = $('#save-modal-wrapper');
+        this.$saveCloseModal    = this.$saveModalWrapper.find('.save-modal-close')
+        this.$saveModalDisplay  = this.$saveModalWrapper.find('.save-modal-display');
+        this.$saveModalDataBtn  = this.$saveModalWrapper.find('.save-modal-data');
+        this.$titleInput        = this.$saveModalWrapper.find('.title-wrapper input');
+    },
+    bindEvents: function() {
+        this.$saveTodosBtn.on('click', this.displaySaveModal.bind(this));
+        this.$saveCloseModal.on('click', this.displaySaveModal.bind(this));
+        this.$saveModalDataBtn.on('click', DataHandler.postTodos);
+        this.$saveModalWrapper.on('click', this.displaySaveModal.bind(this));
+    },
+    displaySaveModal: function() {
+        this.$saveModalWrapper.toggleClass('active-modal');
+        this.$saveModalDisplay.toggleClass('active-modal');
+    }
+}
+
+SaveModal.init();
+
 
 
 

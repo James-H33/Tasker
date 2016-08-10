@@ -22,23 +22,45 @@ section.main-wrapper
 
         div.main-list-display
 
-            section.tasker-header-wrapper
-                div.tasker-header-display
-                    h1 Lists
-            section.list-wrapper
-                div.list-display
-                  - if (user) {
-                    - user.list.forEach(function(item) {
-                        div(data-id=''+item.id+'').task-listing-control
-                          div.col
-                          p #{item.title}
-                          div.list-delete
-                            i(class='fa fa-times' aria-hidden='true')
-                    - });
-                  -  }
+            section.slide-list-wrapper
+                div.slide-list-container
 
-                section.tasker-buttons
-                    button.more-todos Lists
+                    section.tasker-header-wrapper
+                        div.tasker-header-display
+                            h1 Lists
+                    section.list-wrapper
+                        div.list-display
+                          - if (user) {
+                            - user.list.forEach(function(item) {
+                                div(data-id=''+item.id+'').task-listing-control
+                                  div.col
+                                  p #{item.title}
+                                  div.list-delete
+                                    i(class='fa fa-times' aria-hidden='true')
+                            - });
+                          -  }
+
+                        section.tasker-buttons
+                            button.more-todos Lists
+
+                div.slide-list-container
+                    section.tasker-header-wrapper
+                        div.tasker-header-display
+                            h2 New List
+                    section.list-wrapper
+                        div.list-display
+                            - if (user) {
+                              - user.list.forEach(function(item) {
+                                  div(data-id=''+item.id+'').task-listing-control
+                                    div.col
+                                    p #{item.title}
+                                    div.list-delete
+                                      i(class='fa fa-times' aria-hidden='true')
+                              - });
+                            -  }
+
+                        section.tasker-buttons
+                            button.list-delete Delete
 
 
 include ./partials/footer

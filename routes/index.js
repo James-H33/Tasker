@@ -66,6 +66,10 @@ router.delete('/home', function(req, res, next) {
 
 });
 
+router.get('/todos', function(req, res, next) {
+    
+});
+
 
 
 module.exports = router;

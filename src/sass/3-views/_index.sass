@@ -34,6 +34,12 @@
         font-size: 100px
         font-weight: lighter
 
+    h2
+        color: $red
+        font-size: 50px
+        font-weight: lighter
+        padding: 30px 0
+
 .task-wrapper
     width: 100%
     height: auto
@@ -135,6 +141,7 @@
     min-width: 300px
     height: calc(100% - 120px)
     margin: 0 auto
+    overflow: hidden
     padding-top: 120px
 
 .list-wrapper
@@ -183,3 +190,19 @@
     i
         color: #fff
         transition: $mid-lin-trans
+
+
+.slide-list-wrapper
+    width: 1200px
+    transition: all 350ms cubic-bezier(0.47, 0, 0.06, 1.42)
+    transform: translateX(0)
+
+    &.active-todos-list
+        transform: translateX(-50%)
+
+.slide-list-container
+    width: 450px
+    display: inline-block
+
+    &:nth-of-type(2)
+        margin-left: 150px

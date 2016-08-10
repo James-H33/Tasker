@@ -11,10 +11,10 @@ Notes
      - validator
     - Todos and User Association
     - various style Changes
-  v5 - What's Next
-    - Add Packages
-      - csurf
-    - Todo Lists need a title
-    
+  v5
+    - Added title to todo list
+    - Now able to save list in database
+  v6
+    - Added new list view in order for user to look at saved list tasks
+    - Tasks still need to be pull in through ajax
  
-
